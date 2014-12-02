@@ -39,11 +39,11 @@ int main()
 		queue<int> bfsq;
 		bfsq.push(1);
 		visited[1] = 0;
-		while(!bfsq.empty() && visited[n] == -1)
+		while(!bfsq.empty())
 		{
 			int head = bfsq.front();
 			bfsq.pop();
-			cout << head << " " << visited[head] << endl;
+//			cout << head << " " << visited[head] << endl;
 			if(ladders.find(head) != ladders.end())
 			{
 				if(visited[ladders[head]] == -1)
@@ -61,8 +61,8 @@ int main()
 					bfsq.push(i);
 					visited[i] = visited[head] + 1;
 				}
-//				else
-//					visited[i] = min(visited[i], visited[head] + 1);
+				else
+					visited[i] = min(visited[i], visited[head] + 1);
 			}
 		}
 		printf("%d\n", visited[n]);
