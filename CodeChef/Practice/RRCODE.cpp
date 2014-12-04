@@ -32,28 +32,31 @@ int main()
 			SLL(input);
 			numbers.pb(input);
 		}
-		string op;
-		cin>>op;
+		char op[5];
+		scanf("%s", op);
 		LL temp = numbers[0];
-		if(op[0] == 'X')
+		if(k != 0)
 		{
-			for(int i=1; i<n; i++)
-				temp = temp ^ numbers[i];
-			if(k%2==0)
-				temp = 0;
-			ans = ans ^ temp;
-		}
-		else if(op[0] == 'O')
-		{
-			for(int i=1; i<n; i++)
-				temp = temp | numbers[i];
-			ans = ans | temp;
-		}
-		else
-		{
-			for(int i=1; i<n; i++)
-				temp = temp & numbers[i];
-			ans = ans & temp;
+			if(op[0] == 'X')
+			{
+				for(int i=1; i<n; i++)
+					temp = temp ^ numbers[i];
+				if(k%2==0)
+					temp = 0;
+				ans = ans ^ temp;
+			}
+			else if(op[0] == 'O')
+			{
+				for(int i=1; i<n; i++)
+					temp = temp | numbers[i];
+				ans = ans | temp;
+			}
+			else
+			{
+				for(int i=1; i<n; i++)
+					temp = temp & numbers[i];
+				ans = ans & temp;
+			}
 		}
 		printf("%lld\n", ans);
 	}
