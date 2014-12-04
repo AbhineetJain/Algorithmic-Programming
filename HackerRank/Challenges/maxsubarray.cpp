@@ -16,35 +16,44 @@ typedef vector<LL> VLL;
 #define f first
 #define s second
 
-VI array(100005);
-VI dpMCS(100005, -1);
-
-int maxcontsubarray(int n)
-{
-	if(dpMCS[n] != -1)
-		return dpMCS[n];
-	else if(n == 0)
-		return dpMCS[0] = array[0];
-	else
-	{
-		return dpMCS[n] = max(maxcontsubarray(n-1), maxcontsubarray(n-1)+array[n]);
-	}
-}
 
 int main()
 {
 	int tc;
 	int n;
+	int array[100005];
 	SI(tc);
 	while(tc--)
 	{
 		SI(n);
+		int ncs = 0;
 		for(int i=0; i<n; i++)
 		{
 			SI(array[i]);
-			dpMCS[i] = -1;
+			if(array[i] > 0)
+				ncs += array[i];
 		}
-		printf("%d\n", maxcontsubarray(n-1));
+		int  max_sum = 0, current_sum = 0;
+		if(ncs != 0)
+		{
+			for(int i=0; i<n; i++)
+			{
+				if(current_sum + array[i] > 0)
+					current_sum += array[i];
+				else
+					current_sum = 0;
+				if(current_sum > max_sum)
+					max_sum = current_sum;
+			}
+		}
+		else
+		{
+			int maximum = array[0];
+			for(int i=1; i<n; i++)
+				maximum = max(maximum, array[i]);
+			max_sum = ncs = maximum;
+		}	
+		printf("%d %d\n", max_sum, ncs);
 	}
 	return 0;
 }
