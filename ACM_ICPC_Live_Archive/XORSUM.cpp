@@ -28,7 +28,7 @@ class trie
 		child[0] = child[1] = NULL;
 	}
 	
-	void insert(int val, int count)
+	void insert(int val, int count = 32)
 	{
 		if(count)
 		{
@@ -39,16 +39,25 @@ class trie
 		}
 	}
 
-	bool find(int val, int count)
+	int find(int val, int count = 32, int ans = 0)
 	{
 		if(count)
 		{
 			bool bit = val & 1;
-			if(child[bit] == NULL)
-				return false;
-			return child[bit]->find(val>>1, count-1);
+			if(child[1-bit] == NULL)
+			{
+				ans <<= 1;
+				ans |= bit;
+				return child[bit]->find(val>>1, count-1, ans);
+			}
+			else
+			{
+				ans <<= 1;
+				ans |= (1-bit);
+				return child[1-bit]->find(val>>1, count-1, ans);
+			}
 		}
-		return true;
+		return ans;
 	}
 };
 
@@ -57,23 +66,24 @@ void printtrie(trie *t);
 int main()
 {
 	trie *bit_trie;
-	bit_trie = new trie;
-	int n, i, val;
-	printf("%d\n", (int)sizeof(trie));
-	SI(i);
-	while(i--)
+	int tc, n, array[100005];
+	SI(tc);
+	while(tc--)
 	{
-		SI(val);
-		val = reverseInt(val);
-		bit_trie->insert(val, 32);
-	}
-	printtrie(bit_trie);
-	printf("\n");
-	SI(n);
-	while(n--)
-	{
-		SI(val);
-		printf("%d\n", bit_trie->find(reverseInt(val), 32));
+		SI(n);
+		bit_trie = new trie;
+		for(int i=0; i<n; i++)
+			SI(array[i]);
+		int ans = 0, pre = 0;
+		bit_trie->insert(0);
+		for(int i = 0; i<n; i++)
+		{
+			pre = pre ^ array[i];
+			bit_trie->insert(reverseInt(pre));
+			ans = max(ans, bit_trie->find(reverseInt(pre))^pre);
+		}
+		printf("%d\n", ans);
+		delete bit_trie;
 	}
 	return 0;
 }
