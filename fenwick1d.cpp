@@ -63,8 +63,8 @@ class Fenwick
 
 int main()
 {
-	int n;
-	SI(n);
+	int n, q;
+	SI(n); SI(q);
 	Fenwick f_tree(n);
 	LL val;
 	for(int i = 1; i<=n; i++)
@@ -72,6 +72,24 @@ int main()
 		SLL(val);
 		f_tree.pointUpdate(i, val);
 	}
-	f_tree.printTree();
+	int query, val1, val2;
+	for(int i =0 ; i<q; i++)
+	{
+		getchar();
+		query = getchar();
+		SI(val1); SI(val2);
+		if(query == 'S')
+		{
+			printf("%lld\n", f_tree.getRange(val1+1, val2+1));
+		}
+		else if(query == 'G')
+		{
+			f_tree.pointUpdate(val1+1, val2);
+		}
+		else
+		{
+			f_tree.pointUpdate(val1+1, -val2);
+		}
+	}
 	return 0;
 }
